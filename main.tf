@@ -1,8 +1,8 @@
 locals {
-  ssm_context = "${var.env}/${var.stage}/${var.app-name}"
+  ssm_context = "${var.org}/${var.stage}/${var.app-name}"
 
   tags = {
-    "Environment" : var.env
+    "Environment" : var.org
     "Stage" : var.stage
     "Application" : var.app-name
     "Terraform" : "true"
@@ -44,3 +44,4 @@ resource "aws_ssm_parameter" "deployed_git_version" {
 output "git_tag_ref" {
   value = data.local_file.git_branch_tag_version.content
 }
+

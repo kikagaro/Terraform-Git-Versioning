@@ -1,5 +1,5 @@
-variable "env" {
-  description = "Name of the environment."
+variable "org" {
+  description = "Name of the Organization."
   type = string
 }
 
