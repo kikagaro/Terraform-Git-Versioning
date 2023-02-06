@@ -30,3 +30,6 @@ override.tf.json
 
 # Output from module that should not be committed
 version.txt
+
+# Pycharm ignore
+.idea/
