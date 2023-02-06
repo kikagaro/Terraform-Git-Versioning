@@ -1,4 +1,4 @@
-variable "org" {
+variable "org-name" {
   description = "Name of the Organization."
   type = string
 }
