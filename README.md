@@ -5,7 +5,9 @@ This is meant to be used as a module within any terraform project.
 
 ## What does this do?
 This module makes use of a "null_resource" within terraform to run a command within your local git directory.
-The command interacts with Git in your local repo directory. It performs the following:
+The command interacts makes use of your git tags and prepares it for use within Terraform.
+
+Command being ran:
 ```commandline
 (git describe --tags --exact-match || git describe --tags || git symbolic-ref -q --short HEAD) 2> /dev/null | tr -d '\n' > ./version.txt
 ```
