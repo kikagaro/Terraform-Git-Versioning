@@ -1,7 +1,47 @@
 # Terraform-Git-Versioning
-Terraform resources for using Git tagging to handle versioning.
+The repo was created with the purpose of reusing git tags for versioning and stream lining the process. 
 
-## Basic Module usage:
+This is meant to be used as a module within any terraform project.
+
+## What does this do?
+This module makes use of a "null_resource" within terraform to run a command within your local git directory.
+The command interacts with Git in your local repo directory. It performs the following:
+```commandline
+(git describe --tags --exact-match || git describe --tags || git symbolic-ref -q --short HEAD) 2> /dev/null | tr -d '\n' > ./version.txt
+```
+This command is primary 3 parts:
+* git describe --tags --exact-match
+* git describe --tags
+* git symbolic-ref -q --short HEAD
+
+In order this will attempt each command and if it fails move to the next. Once one of the 3 commands is successful
+it will output the value into a `version.txt` file within the module folder. Pending which command completed this
+value will look like 1 of 3 options pending the tag/commit/branch you have checked out for your deployment:
+
+An exact match of the current Git tag for your current branch:
+```commandline
+kikagaro@Kikagaro:~$ git describe --tags --exact-match
+v2.28.2
+```
+An expanded version of the tag:
+```commandline
+kikagaro@Kikagaro:~$ git describe --tags
+v2.27.0-34-g1146219
+```
+*Note: In the above example, you can read this as 3 parts:*
+1. v2.27.0 : The current head branch for the commit you are on.
+2. 34 : The number of additional commits since the tag.
+3. g1140502019 : The first 7 characters of the commit SHA prefixed with "g".
+
+The name of the branch:
+```commandline
+kikagaro@Kikagaro:~$ git symbolic-ref -q --short HEAD
+master
+```
+Once the value is stored in the `version.txt` file, it is then loaded into terraform using a data resource.
+The value of this resource is then referenced as an output for use within your own terraform projects.
+
+## Basic Module usage in Terraform:
 
 HTTPS:
 ```
@@ -26,7 +66,7 @@ module "git-versioning" {
 }
 ```
 
-Sample output usage for use in tags:
+Sample output usage for use in your tags or other resources:
 ```
 locals {
   tags = {
@@ -37,6 +77,6 @@ locals {
 }
 ```
 
-# Note:
-* This will only be able to grab the git tag/branch of the repo of your current git directory. This will
-not work for submodules.
+### Note:
+*This will only be able to grab the git tag/branch of the repo of your current git directory. This will
+not work for submodules.*

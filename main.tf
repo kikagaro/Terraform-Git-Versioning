@@ -1,8 +1,8 @@
 locals {
-  ssm_context = "${var.org}/${var.stage}/${var.app-name}"
+  ssm_context = "${var.org-name}/${var.stage}/${var.app-name}"
 
   tags = {
-    "Environment" : var.org
+    "Organization" : var.org-name
     "Stage" : var.stage
     "Application" : var.app-name
     "Terraform" : "true"
@@ -21,14 +21,14 @@ resource "null_resource" "git_branch_tag" {
     interpreter = ["/bin/bash", "-c"]
     command = <<EOF
       echo -e "Grabbing Git branch/tag for versioning"
-      (git describe --tags --exact-match || git describe --tags || git symbolic-ref -q --short HEAD) 2> /dev/null | tr -d '\n' > ./version.txt
+      (git describe --tags --exact-match || git describe --tags || git symbolic-ref -q --short HEAD) 2> /dev/null | tr -d '\n' > ${path.module}/version.txt
     EOF
   }
 }
 
 data "local_file" "git_branch_tag_version" {
   depends_on = [null_resource.git_branch_tag]
-  filename = "./version.txt"
+  filename = "${path.module}/version.txt"
 }
 
 resource "aws_ssm_parameter" "deployed_git_version" {
