@@ -33,7 +33,7 @@ v2.27.0-34-g1146219
 *Note: In the above example, you can read this as 3 parts:*
 1. v2.27.0 : The current head branch for the commit you are on.
 2. 34 : The number of additional commits since the tag.
-3. g1140502019 : The first 7 characters of the commit SHA prefixed with "g".
+3. g1146219 : The first 7 characters of the commit SHA prefixed with "g".
 
 The name of the branch:
 ```commandline
