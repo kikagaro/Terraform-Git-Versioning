@@ -53,7 +53,7 @@ module "git-versioning" {
   org-name = organization
   stage    = preprod
   app-name = example-application
-  ssm-output-version = true # Defaults false
+  ssm-output-version = true # Defaults false: "/${org-name}/${stage}/${app-name}/git/deployed/version"
 }
 ```
 SSH:
@@ -64,7 +64,7 @@ module "git-versioning" {
   org-name = organization
   stage    = preprod
   app-name = example-application
-  ssm-output-version = true # Defaults false
+  ssm-output-version = true # Defaults false: "/${org-name}/${stage}/${app-name}/git/deployed/version"
 }
 ```
 
