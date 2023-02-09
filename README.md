@@ -9,7 +9,7 @@ The command interacts makes use of your git tags and prepares it for use within 
 
 Command being ran:
 ```commandline
-(git describe --tags --exact-match || git describe --tags || git symbolic-ref -q --short HEAD) 2> /dev/null | tr -d '\n' > ./version.txt
+(git describe --tags --exact-match || git describe --tags || git symbolic-ref -q --short HEAD) 2> /dev/null | tr -d '\n' > ${path.module}/version.txt
 ```
 This command is primary 3 parts:
 * git describe --tags --exact-match
