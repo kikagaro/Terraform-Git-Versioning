@@ -32,7 +32,7 @@ data "local_file" "git_branch_tag_version" {
 }
 
 resource "aws_ssm_parameter" "deployed_git_version" {
-  count = var.ssm-output-version != false ? 1 : 0
+  count = var.aws-ssm-parameter != false ? 1 : 0
   name = "/${local.ssm_context}/git/deployed/version"
   type = "String"
   value = data.local_file.git_branch_tag_version.content

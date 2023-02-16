@@ -13,8 +13,8 @@ variable "app-name" {
   type = string
 }
 
-variable "ssm-output-version" {
-  description = "True/False for creatting SSM output"
+variable "aws-ssm-parameter" {
+  description = "True/False for creating SSM output"
   type = bool
   default = false
 }

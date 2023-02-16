@@ -1,7 +1,5 @@
 # Terraform-Git-Versioning
-The repo was created with the purpose of reusing git tags for versioning and stream lining the process. 
-
-This is meant to be used as a module within any terraform project.
+The Terraform module in this repo was created to use git tags for versioning and integrate it with larger terraform projects to streamline the versioning process. 
 
 ## What does this do?
 This module makes use of a "null_resource" within terraform to run a command within your local git directory.
@@ -53,7 +51,7 @@ module "git-versioning" {
   org-name = organization
   stage    = preprod
   app-name = example-application
-  ssm-output-version = true # Defaults false: "/${org-name}/${stage}/${app-name}/git/deployed/version"
+  aws-ssm-parameter = true # Defaults false: "/${org-name}/${stage}/${app-name}/git/deployed/version"
 }
 ```
 SSH:
@@ -64,7 +62,7 @@ module "git-versioning" {
   org-name = organization
   stage    = preprod
   app-name = example-application
-  ssm-output-version = true # Defaults false: "/${org-name}/${stage}/${app-name}/git/deployed/version"
+  aws-ssm-parameter = true # Defaults false: "/${org-name}/${stage}/${app-name}/git/deployed/version"
 }
 ```
 
@@ -78,7 +76,12 @@ locals {
   }
 }
 ```
+The parameter aws-ssm-parameter is an optional resource. If `true` this will create the following AWS SSM paramter:
+```
+/${org-name}/${stage}/${app-name}/git/deployed/version
+```
+This parameter defaults to `false`.
 
-### Note:
+## Note:
 *This will only be able to grab the git tag/branch of the repo of your current git directory. This will
 not work for submodules.*
